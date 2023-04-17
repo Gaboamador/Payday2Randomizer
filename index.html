@@ -1,0 +1,922 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PAYDAY 2 RANDOMIZER</title>
+    <link rel="icon" type="image/x-icon" href="https://www.paydaythegame.com/wp-content/themes/pd2tg/img/icons/pd2-favicon.ico">
+    <style>
+   
+   @import url('https://fonts.googleapis.com/css2?family=Chivo+Mono:wght@900&family=Figtree:wght@300&display=swap');
+
+      header {
+        position: fixed;
+        top: 0;
+        width: 100%;
+        height: 45px;
+        background-color: #131313; /* optional, to make header visible */
+        opacity: 95%;
+        z-index: 1000; /* optional, to make header on top of other elements */
+        box-shadow: 0px 0px 0px 1px #424242;
+        font-family: 'Chivo Mono', monospace;
+        background-image: url("https://www.paydaythegame.com/wp-content/themes/pd2tg/img/crimenet/logo-pd2.png");
+        background-repeat: no-repeat;
+        background-size: contain;
+        background-position: center;
+        text-align: center;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      body {
+        padding-top: 45px !important;
+        margin: 0;
+        padding: 0;
+        font-family: 'Figtree', sans-serif;
+        background-color: #131313;
+      }
+
+.container {
+  margin: 0 auto;
+  padding: 20px;
+  width: 350px;
+}
+
+h1 {
+  color: white;
+  text-align: center;
+  margin-top: 0;
+  padding-top: 5px;
+}
+
+form {
+  background-color: rgba(242,242,242,1);
+  /*padding-top: 10px;*/
+  border-radius: 5px;
+  box-shadow: 3px 3px 5px rgba(69, 155, 213, 0.75);
+  padding: 5px 5px 1px 5px;
+}
+
+label {
+  display: block;
+  margin-bottom: 10px;
+  
+}
+
+input[type=checkbox] {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  border: 2px solid #ccc;
+  border-radius: 4px;
+  width: 20px;
+  height: 20px;
+  display: inline-block;
+  position: relative;
+  vertical-align: middle;
+  margin-right: 10px;
+}
+
+input[type=checkbox]:checked:before {
+  content: "✔";
+  display: inline-block;
+  font-size: 16px;
+  font-weight: bolder;
+  line-height: 16px;
+  width: 20px;
+  height: 20px;
+  position: absolute;
+  top: -2px;
+  left: 0;
+  text-align: center;
+  color: #459bd5;
+}
+
+input[type=checkbox]:hover:not(:checked) {
+  border-color: #459bd5;
+}
+
+fieldset {
+        margin-bottom: 20px;
+        padding: 10px;
+        /*border: none;*/
+        border-radius: 5px;
+      }
+
+fieldset legend {
+    display: inline-block;
+    padding: 5px 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-weight: bold;
+    cursor: pointer;
+    background-color: #459bd5;
+  }
+
+
+#primaryGuns-container.hidden,
+#secondaryGuns-container.hidden,
+#perkDecks-container.hidden,
+#armors-container.hidden,
+#throwables-container.hidden,
+#equipments-container.hidden,
+#melees-container.hidden,
+#heists-container.hidden {
+  display: none;
+}
+
+
+button {
+  font-family: 'Figtree', sans-serif;
+  background-color: #459bd5;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+  margin-top: 0px;
+  width: 100%;
+}
+
+button:hover {
+  background-color: #2a5979;
+}
+
+.randomizeButton {
+  background: linear-gradient(-45deg, #459bd5 0%, #459bd5 30%, #2a5979 30%, #2a5979 70%, #459bd5 70%, #459bd5 100%);
+background-size: 400% 400%;
+animation: gradient-shiny 6s ease infinite;
+}
+@keyframes gradient-shiny {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+.randomizeButton:hover {
+  background: linear-gradient(45deg, #2a5979 0%, #2a5979 30%, #459bd5 30%, #459bd5 70%, #2a5979 70%, #2a5979 100%);
+background-size: 400% 400%;
+animation: gradient-shiny 6s ease infinite;
+}
+
+.buttonGoToTop {
+  width:fit-content;
+  background-color: transparent;
+  border: 1px solid #459bd5;
+  margin: 0 auto 10px;
+  display: block;
+}
+
+.buttonGoToTop:hover {
+  background-color: transparent;
+  color:#459bd5;
+}
+
+@media (max-width: 480px) {
+  .container {
+    max-width: 100%;
+    padding: 10px;
+  }
+  /*form {
+    padding: 10px;
+  }*/
+}
+ #result {
+  margin: 0 auto;
+  padding: 20px;
+  max-width: 80vh;
+  border-radius: 10px;
+}
+
+#resultHeist {
+  margin: 0 auto;
+  padding: 20px;
+  max-width: 80vh;
+  border-radius: 10px;
+}
+
+#pointsResult {
+  margin: 0 auto;
+  padding: 20px;
+  max-width: 80vh;
+  border-radius: 10px;
+}
+
+table {
+  border-collapse: collapse;
+  border-radius: 15px;
+}
+td:first-child {
+  font-weight: bold;
+  border-style: none ridge none none;
+  border-color: #2a5979;
+}
+.build-table {
+  border-collapse: collapse;
+  width: 100%;
+  background-color: #8bcefa;
+}
+.build-table td {
+  padding: 8px;
+  text-align: left;  
+}
+.build-table tr:nth-child(even) {
+  background-color: white;
+}
+
+.heist-table {
+  border-collapse: collapse;
+  width: 100%;
+  background-color: white;
+}
+.heist-table td {
+  padding: 8px;
+  text-align: left;  
+}
+
+.result-table {
+  border-collapse: collapse;
+  border-radius: 15px;
+  width: 100%;
+  background-color: #8bcefa;
+}
+.result-table td {
+  padding: 8px;
+  text-align: left;  
+}
+.result-table tr:nth-child(even) {
+  background-color: white;
+}
+
+
+.buttons {
+    text-align: center;
+}
+  .buttons button {
+  display: inline-block;
+  margin: 0px 0px 5px auto;
+  width: 40%;
+  color: #459bd5;
+  background-color: white;
+  border: 1px solid #459bd5;
+  padding: 3px;
+}
+.buttonsExpandCollapse {
+    text-align: center;
+}
+.buttonsExpandCollapse button {
+  display: inline-block;
+  margin: 0px 0px 5px auto;
+  width: 20vh;
+  background-color: grey;
+  border: 1px solid #459bd5;
+  padding: 3px;
+}
+    </style>
+  </head>
+  <header>
+    <!--<h1>PAYDAY <span style="color: #459bd5;">2</span></h1>-->
+  </header>
+  <body>
+
+<div style="border: 1px dotted #459bd5; margin: 15px; border-radius: 15px">
+    <div class="container">
+      <button id="randomizeButton" class="randomizeButton" onclick="randomizeBuild()">RANDOMIZE BUILD</button>
+      </div>
+
+      <div class="buttons">
+        <button id="toggleResultButton" style="display: none;" onclick="toggleResult()">Hide Build</button>
+      </div>
+      <div style="display:none"; id="result"></div>
+    
+</div>
+
+<div style="border: 1px dotted #459bd5; margin: 15px; border-radius: 15px">
+  <div class="container">
+    <button id="randomizeButtonPoints" class="randomizeButton" onclick="randomizePoints()">RANDOMIZE SKILL TREES</button>
+  </div>
+
+  <div class="buttons">
+    <button id="toggleResultButtonSkillTree" style="display: none;" onclick="toggleResultSkillTree()">Hide Skill Trees</button>
+  </div>
+  <div style="display:none"; id="pointsResult"></div>
+</div>
+
+<div style="border: 1px dotted #459bd5; margin: 15px; border-radius: 15px">
+    <div class="container">
+    <button id="randomizeButton" class="randomizeButton" onclick="randomizeHeist()">RANDOMIZE HEIST</button>
+    </div>
+
+    <div class="buttons">
+      <button id="toggleResultButtonHeist" style="display: none;" onclick="toggleResultHeist()">Hide Heist</button>
+    </div>
+    <div style="display:none"; id="resultHeist"></div>
+</div>
+
+
+<div class="buttonsExpandCollapse">
+    <button onclick="expandAll()">EXPAND ALL</button>
+    <button onclick="collapseAll()">COLLAPSE ALL</button>
+</div>
+
+<div class="container">
+  <form>
+    <fieldset>
+      <legend id="primaryGuns-legend">
+        PRIMARY GUNS
+      </legend>
+      <div id="checkall"></div>
+        <div id="primaryGuns-container" name="primaryGuns">
+          <div class="buttons">
+            <button id="check-primaryGuns" type="button">Check all</button>
+            <button id="uncheck-primaryGuns" type="button">Uncheck all</button>
+          </div>
+        </div>
+    </fieldset>
+  </form>
+</div>
+
+<div class="container">
+  <form>
+    <fieldset>
+      <legend id="secondaryGuns-legend">
+        SECONDARY GUNS
+      </legend>
+      <div id="checkall"></div>
+        <div id="secondaryGuns-container" name="secondaryGuns">
+          <div class="buttons">
+            <button id="check-secondaryGuns" type="button">Check all</button>
+            <button id="uncheck-secondaryGuns" type="button">Uncheck all</button>
+          </div>
+        </div>
+    </fieldset>
+  </form>
+</div>
+
+<div class="container">
+  <form>
+    <fieldset>
+      <legend id="perkDecks-legend">
+        PERK DECKS
+      </legend>
+      <div id="checkall"></div>
+        <div id="perkDecks-container" name="perkDecks">
+          <div class="buttons">
+            <button id="check-perkDecks" type="button">Check all</button>
+            <button id="uncheck-perkDecks" type="button">Uncheck all</button>
+          </div>
+        </div>
+    </fieldset>
+  </form>
+</div>
+
+
+<div class="container">
+  <form>
+    <fieldset>
+      <legend id="armors-legend">
+        ARMORS
+      </legend>
+      <div id="checkall"></div>
+        <div id="armors-container" name="armors">
+          <div class="buttons">
+            <button id="check-armors" type="button">Check all</button>
+            <button id="uncheck-armors" type="button">Uncheck all</button>
+          </div>
+        </div>
+    </fieldset>
+  </form>
+</div>
+
+
+<div class="container">
+  <form>
+    <fieldset>
+      <legend id="throwables-legend">
+        THROWABLES
+      </legend>
+      <div id="checkall"></div>
+        <div id="throwables-container" name="throwables">
+          <div class="buttons">
+            <button id="check-throwables" type="button">Check all</button>
+            <button id="uncheck-throwables" type="button">Uncheck all</button>
+          </div>
+        </div>
+    </fieldset>
+  </form>
+</div>
+
+
+<div class="container">
+  <form>
+    <fieldset>
+      <legend id="equipments-legend">
+        EQUIPMENTS
+      </legend>
+      <div id="checkall"></div>
+        <div id="equipments-container" name="equipments">
+          <div class="buttons">
+            <button id="check-equipments" type="button">Check all</button>
+            <button id="uncheck-equipments" type="button">Uncheck all</button>
+          </div>
+        </div>
+    </fieldset>
+  </form>
+</div>
+
+
+<div class="container">
+  <form>
+    <fieldset>
+      <legend id="melees-legend">
+        MELEE
+      </legend>
+      <div id="checkall"></div>
+        <div id="melees-container" name="melees">
+          <div class="buttons">
+            <button id="check-melees" type="button">Check all</button>
+            <button id="uncheck-melees" type="button">Uncheck all</button>
+          </div>
+        </div>
+    </fieldset>
+  </form>
+</div>
+
+
+<div class="container">
+  <form>
+    <fieldset>
+      <legend id="heists-legend">
+        HEISTS
+      </legend>
+      <div id="checkall"></div>
+        <div id="heists-container" name="heists">
+          <div class="buttons">
+            <button id="check-heists" type="button">Check all</button>
+            <button id="uncheck-heists" type="button">Uncheck all</button>
+          </div>
+        </div>
+    </fieldset>
+  </form>
+</div>
+
+
+<button class="buttonGoToTop" onclick="goToTop()" id="goToTopBtn" title="Go to top">Ir arriba</button>
+
+      
+
+<script>
+  function randomizeBuild() {
+  let primaryGuns = document.querySelectorAll('input[name="primaryGuns"]:checked');
+  let secondaryGuns = document.querySelectorAll('input[name="secondaryGuns"]:checked');
+  let perkDecks = document.querySelectorAll('input[name="perkDecks"]:checked');
+  let armors = document.querySelectorAll('input[name="armors"]:checked');
+  let throwables = document.querySelectorAll('input[name="throwables"]:checked');
+  let equipments = document.querySelectorAll('input[name="equipments"]:checked');
+  let melees = document.querySelectorAll('input[name="melees"]:checked');
+
+  let selectedPrimaryGuns = getRandomElement(primaryGuns);
+  let selectedSecondaryGuns = getRandomElement(secondaryGuns);
+  let selectedPerkDecks = getRandomElement(perkDecks);
+  let selectedArmors = getRandomElement(armors);
+  let selectedThrowables = getRandomElement(throwables);
+  let selectedEquipments = getRandomElement(equipments);
+  let selectedMelees = getRandomElement(melees);
+
+  let build = {
+    "Primary Gun": selectedPrimaryGuns,
+    "Secondary Gun": selectedSecondaryGuns,
+    "Perk Deck": selectedPerkDecks,
+    "Armor": selectedArmors,
+    "Throwable": selectedThrowables,
+    "Equipment": selectedEquipments,
+    "Melee": selectedMelees,    
+  };
+
+  let resultDiv = document.getElementById('result');
+  let table = document.createElement('table');
+  table.classList.add('build-table');
+
+  for (const [category, selection] of Object.entries(build)) {
+    let row = document.createElement('tr');
+    let categoryCell = document.createElement('td');
+    let selectionCell = document.createElement('td');
+
+    categoryCell.textContent = category;
+    selectionCell.textContent = selection;
+
+    row.appendChild(categoryCell);
+    row.appendChild(selectionCell);
+    table.appendChild(row);
+  }
+
+  resultDiv.innerHTML = '';
+  resultDiv.appendChild(table);
+  resultDiv.style.display = "block";
+
+  document.getElementById("toggleResultButton").style.display = "inline-block";
+}
+
+function randomizeHeist() {
+  let heists = document.querySelectorAll('input[name="heists"]:checked');
+  let selectedHeists = getRandomElement(heists);
+  let heist = {
+    "Heist": selectedHeists
+  };
+  let resultDiv = document.getElementById('resultHeist');
+  let table = document.createElement('table');
+  table.classList.add('heist-table');
+
+  for (const [category, selection] of Object.entries(heist)) {
+    let row = document.createElement('tr');
+    let categoryCell = document.createElement('td');
+    let selectionCell = document.createElement('td');
+
+    categoryCell.textContent = category;
+    selectionCell.textContent = selection;
+
+    row.appendChild(categoryCell);
+    row.appendChild(selectionCell);
+    table.appendChild(row);
+  }
+
+  resultDiv.innerHTML = '';
+  resultDiv.appendChild(table);
+  resultDiv.style.display = "block";
+
+  document.getElementById("toggleResultButtonHeist").style.display = "inline-block";
+
+}
+
+  function getRandomElement(elements) {
+    if (elements.length > 0) {
+      let randomIndex = Math.floor(Math.random() * elements.length);
+      return elements[randomIndex].value;
+    } else {
+      return null;
+    }
+  }
+
+function goToTop() {
+        document.body.scrollTop = 0; // For Safari
+        document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
+      }
+
+
+//PRIMARY GUNS
+let primaryGuns = ["AMCAR Rifle","Commando 553 Rifle","Eagle Heavy Rifle","AK Rifle","CAR-4 Rifle","UAR Rifle","Cavity 9mm","AK.762 Rifle","JP36 Rifle","AK17 Rifle","Golden AK.762 Rifle","Bootleg Rifle","Queen's Wrath Rifle","M308 Rifle","Clarion Rifle","Lion's Roar Rifle","Valkyria Rifle","AK5 Rifle","Gecko 7.62 Rifle","AMR-16 Rifle","Little friend 7.62 Assault Rifle","Falcon Rifle","Gewehr 3 Rifle","Predator 12G Shotgun","Breaker 12G Shotgun","Reinfeld 880 Shotgun","M1014 Shotgun","Raven Shotgun","IZHMA 12G Shotgun","Mosconi 12G Shotgun","Joceline O/U 12G Shotgun","Steakout 12G Shotgun","RPK Light Machine Gun","KSP 58 Light Machine Gun","KSP Light Machine Gun","Buzzsaw 42 Light Machine Gun","Brenner-21 Light Machine Gun","Rattlesnake Sniper Rifle","Platypus 70 Sniper Rifle","Lebensauger .308 Sniper Rifle","Desertfox Sniper Rifle","Contractor .308 Sniper Rifle","R93 Sniper Rifle","Repeater 1874 Sniper Rifle","Grom Sniper Rifle","Nagant Sniper Rifle","Thanatos .50 cal Sniper Rifle","Akimbo Chimano Compact Pistols","Akimbo Crosskill Pistols","Akimbo Bernetti 9 Pistols","Akimbo Deagle Pistols","Akimbo Chimano 88 Pistols","Akimbo Chimano Custom Pistols","Akimbo Signature .40 Pistols","Akimbo Gruber Kurz Pistols","Akimbo Interceptor 45 Pistols","Akimbo Contractor Pistols","Akimbo Bronco .44 Revolvers","Akimbo White Streak Pistols","Akimbo Baby Deagle Pistols","Akimbo Broomstick Pistols","Akimbo Castigo .44 Revolvers","Akimbo Crosskill Guard Pistols","Akimbo LEO Pistols","Akimbo STRYK 18c Pistols","Akimbo Matever .357 Revolvers","Akimbo Krinkov Submachine Guns","Akimbo Swedish K Submachine Guns","Akimbo Compact-5 Submachine Guns","Akimbo SpecOps Submachine Guns","Akimbo Heather Submachine Guns","Akimbo CR 805B Submachine Guns","Akimbo Mark 10 Submachine Guns","Akimbo Jacket's Piece","Akimbo Chicago Typewriter SMGs","Akimbo Cobra Submachine Guns","Akimbo Micro Uzi Submachine Guns","Akimbo CMP Submachine Guns","Akimbo Para Submachine Guns","Akimbo Jackal Submachine Guns","Akimbo Signature Submachine Guns","Akimbo Blaster 9mm Submachine Guns","Akimbo Kobus 90 Submachine Guns","Akimbo Kross Vertex Submachine Guns","Akimbo Tatonka Submachine Guns","Akimbo Patchett L2A1 Submachine Guns","Akimbo Uzi Submachine Guns","Akimbo Goliath 12G Shotguns","Brother Grimm 12G Shotguns","Akimbo Judge Shotguns","OVE9000 Saw","Plainsrider Bow","Light Crossbow","English Longbow","XL 5.56 Microgun","Vulcan Minigun","Heavy Crossbow","Piglet Grenade Launcher","Flamethrower Mk.1","GL40 Grenade Launcher"];
+let primaryGunsContainer = document.querySelector('div[name="primaryGuns"]');
+for (let primaryGun of primaryGuns) {
+  let input = document.createElement('input');
+  let label = document.createElement('label');
+  let labelText = document.createTextNode(primaryGun);
+  input.type = 'checkbox';
+  input.name = 'primaryGuns';
+  input.value = primaryGun;
+  input.checked = true;
+  label.appendChild(input);
+  label.appendChild(labelText);
+  primaryGunsContainer.appendChild(label);
+}
+
+
+//SECONDARY GUNS
+let secondaryGuns = ["Chimano 88 Pistol","Signature .40 Pistol","Gruber Kurz Pistol","Interceptor 45 Pistol","White Streak Pistol","Crosskill Pistol","Bernetti 9 Pistol","Bronco .44 revolver","Baby Deagle Pistol","Chimano Custom Pistol","Broomstick Pistol","Castigo .44 Revolver","5/7 AP Pistol","Contractor Pistol","Chimano Compact Pistol","Crosskill Guard Pistol","LEO Pistol","STRYK 18c Pistol","Pacemaker .45 Revolver","Matever .357 Revolver","Deagle Pistol","Swedish K Submachine Gun","SpecOps Submachine Gun","Mark 10 Submachine Gun","CR 805B Submachine Gun","Jacket's piece","Compact-5 Submachine Gun","Chicago Typewriter Submachine Gun","Cobra Submachine Gun","CMP Submachine Gun","Para Submachine Gun","Micro Uzi Submachine Gun","Signature Submachine Gun","Jackal Submachine Gun","Heather Submachine Gun","Krinkov Submachine Gun","Blaster 9mm Submachine Gun","Kobus 90 Submachine Gun","Kross Vertex Submachine Gun","Tatonka Submachine Gun","Patchett L2A1 Submachine Gun","Uzi Submachine Gun","Pistol Crossbow","Compact 40mm Grenade Launcher","HRL-7 Rocket Launcher","China Puff 40mm Grenade Launcher","Commando 101 Rocket Launcher","MA-17 Flamethrower","Arbiter Grenade Launcher","OVE9000 Saw","Locomotive 12G Shotgun","GSPS 12G Shotgun","Goliath 12G Shotgun","Grimm 12G Shotgun","Street Sweeper Shotgun","The Judge Shotgun"];
+let secondaryGunsContainer = document.querySelector('div[name="secondaryGuns"]');
+for (let secondaryGun of secondaryGuns) {
+  let input = document.createElement('input');
+  let label = document.createElement('label');
+  let labelText = document.createTextNode(secondaryGun);
+  input.type = 'checkbox';
+  input.name = 'secondaryGuns';
+  input.value = secondaryGun;
+  input.checked = true;
+  label.appendChild(input);
+  label.appendChild(labelText);
+  secondaryGunsContainer.appendChild(label);
+}
+
+//PERK DECKS
+let perkDecks = ["Crew Chief","Muscle","Armorer","Rogue","Hitman","Crook","Burglar","Infiltrator","Sociopath","Gambler","Grinder","Yakuza","Ex-President","Maniac","Anarchist","Biker","Kingpin","Sicario","Stoic","Hacker"];
+let perkDecksContainer = document.querySelector('div[name="perkDecks"]');
+for (let perkDeck of perkDecks) {
+  let input = document.createElement('input');
+  let label = document.createElement('label');
+  let labelText = document.createTextNode(perkDeck);
+  input.type = 'checkbox';
+  input.name = 'perkDecks';
+  input.value = perkDeck;
+  input.checked = true;
+  label.appendChild(input);
+  label.appendChild(labelText);
+  perkDecksContainer.appendChild(label);
+}
+
+//ARMORS
+let armors = ["Two-piece Suit","Ballistic Vest","Lightweight Ballistic Vest","Heavy Ballistic vest","Flak Jacket","Combined Tactical Vest","Improved Combined Tactical Vest"];
+let armorsContainer = document.querySelector('div[name="armors"]');
+for (let armor of armors) {
+  let input = document.createElement('input');
+  let label = document.createElement('label');
+  let labelText = document.createTextNode(armor);
+  input.type = 'checkbox';
+  input.name = 'armors';
+  input.value = armor;
+  input.checked = true;
+  label.appendChild(input);
+  label.appendChild(labelText);
+  armorsContainer.appendChild(label);
+}
+
+//THROWABLES
+let throwables = ["Concussion Grenade","Matryoshka Grenade","Incendiary Grenade","Frag Grenade","HEF Grenade","Ace of Spades","Molotov Cocktail","Dynamite","Shuriken","Javelin","Throwing Knife","Throwing Axe"];
+let throwablesContainer = document.querySelector('div[name="throwables"]');
+for (let throwable of throwables) {
+  let input = document.createElement('input');
+  let label = document.createElement('label');
+  let labelText = document.createTextNode(throwable);
+  input.type = 'checkbox';
+  input.name = 'throwables';
+  input.value = throwable;
+  input.checked = true;
+  label.appendChild(input);
+  label.appendChild(labelText);
+  throwablesContainer.appendChild(label);
+}
+
+//EQUIPMENT
+let equipments = ["Ammo Bag","Armor Bag","Body Bag Case","Doctor Bag","ECM Jammer","First Aid Kit","Sentry Gun","Suppressed Sentry Gun","Trip Mines and Shaped Charges"];
+let equipmentsContainer = document.querySelector('div[name="equipments"]');
+for (let equipment of equipments) {
+  let input = document.createElement('input');
+  let label = document.createElement('label');
+  let labelText = document.createTextNode(equipment);
+  input.type = 'checkbox';
+  input.name = 'equipments';
+  input.value = equipment;
+  input.checked = true;
+  label.appendChild(input);
+  label.appendChild(labelText);
+  equipmentsContainer.appendChild(label);
+}
+
+//MELEE
+let melees = ["Weapon Butt","50 Blessings Briefcase","URSA Knife","Swagger Stick","Nova's Shank","Fists","350K Brass Knuckles","Ursa Tanto Knife","Pounder","Specialist Knives","The Motherforker","Spatula","K.L.A.S Shovel","Money Bundle","Empty Palm Kata","Bolt Cutters","Shawn's Shears","Utility Knife","Microphone","Selfie-stick","Bayonet Knife","Machete","Chain Whip","The Pen","Ice Pick","Electrical Brass Knuckles","Rezkoye","Telescopic Baton","Jackpot","Baseball Bat","Monkey Wrench","Classic Baton","Hockey Stick","Diving Knife","El Verdugo","Hackaton","Krieger Blade","Buckler Shield","Wing Butterfly knife","You're Mine","Metal Detector","Croupier's Rake","Compact Hatchet","Lumber Lite L2","Potato Masher","Scalper Tomahawk","Switchblade","OVERKILL Boxing Gloves","Dragan's Cleaver Knife","Leather Sap","Shinsakuto Katana","Okinawan Style Sai","Pitchfork","Arkansas Toothpick","Microphone Stand","Psycho Knife","X-46 Knife","Talons","Bearded Axe","Hook","Cleaver Knife","Buzzer","Gold Fever","Carpenter's Delight","Clover's Shillelagh","Shepherd's Cane","Scout Knife","Trench Knife","Berger Combat Knife","Survival Tomahawk","Morning Star","Poker","Lucille Baseball Bat","Great Sword","The Spear of Freedom","Rivertown Glen Bottle","Ding Dong Breaching Tool","Tenderizer","Machete Knife","Utility Machete","Kunai Knife","Trautman Knife","Fire Axe"];
+let meleesContainer = document.querySelector('div[name="melees"]');
+for (let melee of melees) {
+  let input = document.createElement('input');
+  let label = document.createElement('label');
+  let labelText = document.createTextNode(melee);
+  input.type = 'checkbox';
+  input.name = 'melees';
+  input.value = melee;
+  input.checked = true;
+  label.appendChild(input);
+  label.appendChild(labelText);
+  meleesContainer.appendChild(label);
+}
+
+//HEISTS
+let heists = ["Art Gallery","Bank Heist: Cash","Bank Heist: Deposit","Bank Heist: Gold","Bank Heist: Random","Car Shop (STEALTH ONLY)","Cook Off","Diamond Store","Jewelry Store","Shadow Raid (STEALTH ONLY)","The Alesso Heist","Transport: Crossroads","Transport: Downtown","Transport: Harbor","Transport: Park","Transport: Train Heist","Transport: Underpass","Counterfeit","Diamond Heist","First World Bank","Green Bridge","Heat Street","Panic Room","Slaughterhouse","Undercover","Cursed Kill Room","Lab Rats","Prison Nightmare","Safe House Nightmare","Firestarter","Rats","Watchdogs","Boiling Point","Murky Station (STEALTH ONLY)","Alaskan Deal","Beneath the Mountain","Birth of Sky","Brooklyn Bank","Scarface Mansion","The Bomb: Dockyard","The Bomb: Forest","Brooklyn 10-10","The Yacht Heist (STEALTH ONLY)","Golden Grin Casino","Hotline Miami","Hoxton Breakout","Hoxton Revenge","The Big Bank","The Diamond","Big Oil","Election Day","Framing Frame","The Biker Heist","Aftershock","Four Stores","Goat Simulator","Mallcrasher","Meltdown","Nightclub","Santa's Workshop","Stealing Xmas","Ukrainian Job","White Xmas"];
+let heistsContainer = document.querySelector('div[name="heists"]');
+for (let heist of heists) {
+  let input = document.createElement('input');
+  let label = document.createElement('label');
+  let labelText = document.createTextNode(heist);
+  input.type = 'checkbox';
+  input.name = 'heists';
+  input.value = heist;
+  input.checked = true;
+  label.appendChild(input);
+  label.appendChild(labelText);
+  heistsContainer.appendChild(label);
+}
+
+  let primaryGunsLegend = document.getElementById('primaryGuns-legend');
+  let secondaryGunsLegend = document.getElementById('secondaryGuns-legend');
+  let perkDecksLegend = document.getElementById('perkDecks-legend');
+  let armorsLegend = document.getElementById('armors-legend');
+  let throwablesLegend = document.getElementById('throwables-legend');
+  let equipmentsLegend = document.getElementById('equipments-legend');
+  let meleesLegend = document.getElementById('melees-legend');
+  let heistsLegend = document.getElementById('heists-legend');
+
+  primaryGunsLegend.addEventListener('click', toggleVisibility.bind(null, primaryGunsContainer));
+  secondaryGunsLegend.addEventListener('click', toggleVisibility.bind(null, secondaryGunsContainer));
+  perkDecksLegend.addEventListener('click', toggleVisibility.bind(null, perkDecksContainer));
+  armorsLegend.addEventListener('click', toggleVisibility.bind(null, armorsContainer));
+  throwablesLegend.addEventListener('click', toggleVisibility.bind(null, throwablesContainer));
+  equipmentsLegend.addEventListener('click', toggleVisibility.bind(null, equipmentsContainer));
+  meleesLegend.addEventListener('click', toggleVisibility.bind(null, meleesContainer));
+  heistsLegend.addEventListener('click', toggleVisibility.bind(null, heistsContainer));
+
+  function toggleVisibility(element) {
+    element.classList.toggle('hidden');
+  }
+
+
+  function toggleResult() {
+  const resultDiv = document.getElementById("result");
+  const button = document.getElementById("toggleResultButton");
+
+  if (resultDiv.style.display === "none") {
+    resultDiv.style.display = "block";
+    button.textContent = "Hide Build";
+  } else {
+    resultDiv.style.display = "none";
+    button.textContent = "Show Build";
+  }
+}
+
+function toggleResultHeist() {
+  const resultDiv = document.getElementById("resultHeist");
+  const button = document.getElementById("toggleResultButtonHeist");
+
+  if (resultDiv.style.display === "none") {
+    resultDiv.style.display = "block";
+    button.textContent = "Hide Heist";
+  } else {
+    resultDiv.style.display = "none";
+    button.textContent = "Show Heist";
+  }
+}
+
+
+function toggleResultSkillTree() {
+  const resultDiv = document.getElementById("pointsResult");
+  const button = document.getElementById("toggleResultButtonSkillTree");
+
+  if (resultDiv.style.display === "none") {
+    resultDiv.style.display = "block";
+    button.textContent = "Hide Skill Trees";
+  } else {
+    resultDiv.style.display = "none";
+    button.textContent = "Show Skill Trees";
+  }
+}
+
+
+/*CHECK ALL / UNCHECK ALL*/
+
+function toggleCheckboxes(category) {
+    const checkboxes = document.getElementsByName(category);
+    checkboxes.forEach((checkbox) => {
+      checkbox.checked = !checkbox.checked;
+    });
+  }
+
+  function checkAll(category) {
+    const checkboxes = document.getElementsByName(category);
+    checkboxes.forEach((checkbox) => {
+      checkbox.checked = true;
+    });
+  }
+
+  function uncheckAll(category) {
+    const checkboxes = document.getElementsByName(category);
+    checkboxes.forEach((checkbox) => {
+      checkbox.checked = false;
+    });
+  }
+
+  document.getElementById("check-primaryGuns").addEventListener("click", () => {
+    checkAll("primaryGuns");
+  });
+  document.getElementById("uncheck-primaryGuns").addEventListener("click", () => {
+    uncheckAll("primaryGuns");
+  });
+
+  document.getElementById("check-secondaryGuns").addEventListener("click", () => {
+    checkAll("secondaryGuns");
+  });
+  document.getElementById("uncheck-secondaryGuns").addEventListener("click", () => {
+    uncheckAll("secondaryGuns");
+  });
+
+  document.getElementById("check-perkDecks").addEventListener("click", () => {
+    checkAll("perkDecks");
+  });
+  document.getElementById("uncheck-perkDecks").addEventListener("click", () => {
+    uncheckAll("perkDecks");
+  });
+
+  document.getElementById("check-armors").addEventListener("click", () => {
+    checkAll("armors");
+  });
+  document.getElementById("uncheck-armors").addEventListener("click", () => {
+    uncheckAll("armors");
+  });
+
+  document.getElementById("check-throwables").addEventListener("click", () => {
+    checkAll("throwables");
+  });
+  document.getElementById("uncheck-throwables").addEventListener("click", () => {
+    uncheckAll("throwables");
+  });
+
+  document.getElementById("check-equipments").addEventListener("click", () => {
+    checkAll("equipments");
+  });
+  document.getElementById("uncheck-equipments").addEventListener("click", () => {
+    uncheckAll("equipments");
+  });
+
+  document.getElementById("check-melees").addEventListener("click", () => {
+    checkAll("melees");
+  });
+  document.getElementById("uncheck-melees").addEventListener("click", () => {
+    uncheckAll("melees");
+  });
+
+  document.getElementById("check-heists").addEventListener("click", () => {
+    checkAll("heists");
+  });
+  document.getElementById("uncheck-heists").addEventListener("click", () => {
+    uncheckAll("heists");
+  });
+
+
+function collapseAll() {
+  primaryGunsContainer.classList.add('hidden');
+  secondaryGunsContainer.classList.add('hidden');
+  perkDecksContainer.classList.add('hidden');
+  armorsContainer.classList.add('hidden');
+  throwablesContainer.classList.add('hidden');
+  equipmentsContainer.classList.add('hidden');
+  meleesContainer.classList.add('hidden');
+  heistsContainer.classList.add('hidden');
+}
+
+function expandAll() {
+  primaryGunsContainer.classList.remove('hidden');
+  secondaryGunsContainer.classList.remove('hidden');
+  perkDecksContainer.classList.remove('hidden');
+  armorsContainer.classList.remove('hidden');
+  throwablesContainer.classList.remove('hidden');
+  equipmentsContainer.classList.remove('hidden');
+  meleesContainer.classList.remove('hidden');
+  heistsContainer.classList.remove('hidden');
+}
+
+/*RANDOMIZE POINTS*/
+function randomizePoints() {
+  // define the number of points and categories
+  const totalPoints = 120;
+  const numCategories = 5;
+
+  // allocate 1 point to each category
+  const initialPoints = Array.from({ length: numCategories }, () => 1);
+
+  // calculate the remaining points
+  const remainingPoints = totalPoints - numCategories;
+
+  // randomly allocate the remaining points among the categories
+  let allocatedPoints = Array.from({ length: numCategories }, () => 0);
+  for (let i = 0; i < remainingPoints; i++) {
+    const category = Math.floor(Math.random() * numCategories);
+    allocatedPoints[category]++;
+  }
+
+  // add the initial and allocated points to get the total points for each category
+  const categoryPoints = initialPoints.map((point, index) => point + allocatedPoints[index]);
+
+  // create the table
+  const table = document.createElement("table");
+  table.classList.add("result-table");
+  const tableHeader = document.createElement("thead");
+  const tableHeaderRow = document.createElement("tr");
+  const tableHeaderCell1 = document.createElement("th");
+  const tableHeaderCell2 = document.createElement("th");
+  tableHeaderRow.appendChild(tableHeaderCell1);
+  tableHeaderRow.appendChild(tableHeaderCell2);
+  tableHeader.appendChild(tableHeaderRow);
+  table.appendChild(tableHeader);
+
+  const tableBody = document.createElement("tbody");
+  const categories = ["Mastermind", "Enforcer", "Technician", "Ghost", "Fugitive"];
+  for (let i = 0; i < categories.length; i++) {
+    const tableRow = document.createElement("tr");
+    const tableCell1 = document.createElement("td");
+    const tableCell2 = document.createElement("td");
+    tableCell1.textContent = categories[i];
+    tableCell2.textContent = categoryPoints[i];
+    tableRow.appendChild(tableCell1);
+    tableRow.appendChild(tableCell2);
+    tableBody.appendChild(tableRow);
+  }
+  table.appendChild(tableBody);
+
+  // replace the existing table with the new one
+  const resultDiv = document.getElementById("pointsResult");
+  resultDiv.innerHTML = "";
+  resultDiv.appendChild(table);
+  resultDiv.style.display = "block";
+
+  document.getElementById("toggleResultButtonSkillTree").style.display = "inline-block";
+}
+
+
+
+</script>
+</body>
+</html>
