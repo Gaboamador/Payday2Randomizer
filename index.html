@@ -4,6 +4,7 @@
     <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PAYDAY 2 RANDOMIZER</title>
     <link rel="icon" type="image/x-icon" href="https://www.paydaythegame.com/wp-content/themes/pd2tg/img/icons/pd2-favicon.ico">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
     <style>
    
    @import url('https://fonts.googleapis.com/css2?family=Chivo+Mono:wght@900&family=Figtree:wght@300&display=swap');
@@ -40,6 +41,7 @@
   margin: 0 auto;
   padding: 20px;
   width: 350px;
+  
 }
 
 h1 {
@@ -59,8 +61,7 @@ form {
 
 label {
   display: block;
-  margin-bottom: 10px;
-  
+  margin: 5px 0px 5px 0px;
 }
 
 input[type=checkbox] {
@@ -130,21 +131,29 @@ button {
   font-family: 'Figtree', sans-serif;
   background-color: #459bd5;
   color: white;
-  border: none;
-  padding: 10px 20px;
+  padding: 5px 10px !important;
   border-radius: 5px;
   font-size: 16px;
   cursor: pointer;
-  margin-top: 0px;
-  width: 100%;
+  /**/
+  text-align: center;
+  display: inline-block;
+  margin: 0px auto !important;
+  width: fit-content !important;
+  border: 1px solid #459bd5;
 }
 
 button:hover {
   background-color: #2a5979;
 }
 
+.eyeSlashButton{
+  width:fit-content !important;
+}
+
 .randomizeButton {
-  background: linear-gradient(-45deg, #459bd5 0%, #459bd5 30%, #2a5979 30%, #2a5979 70%, #459bd5 70%, #459bd5 100%);
+color: white !important;
+background: linear-gradient(-45deg, #459bd5 0%, #459bd5 30%, #2a5979 30%, #2a5979 70%, #459bd5 70%, #459bd5 100%);
 background-size: 400% 400%;
 animation: gradient-shiny 6s ease infinite;
 }
@@ -183,21 +192,24 @@ animation: gradient-shiny 6s ease infinite;
 }
  #result {
   margin: 0 auto;
-  padding: 20px;
+  padding-top: 0px !important;
+  padding: 10px;
   max-width: 80vh;
   border-radius: 10px;
 }
 
 #resultHeist {
   margin: 0 auto;
-  padding: 20px;
+  padding-top: 0px !important;
+  padding: 10px;
   max-width: 80vh;
   border-radius: 10px;
 }
 
 #pointsResult {
   margin: 0 auto;
-  padding: 20px;
+  padding-top: 0px !important;
+  padding: 10px;
   max-width: 80vh;
   border-radius: 10px;
 }
@@ -223,6 +235,14 @@ td:first-child {
 .build-table tr:nth-child(even) {
   background-color: white;
 }
+.build-table th:nth-child(1),
+.build-table td:nth-child(1) {
+  width: 37%;
+}
+.build-table th:nth-child(2),
+.build-table td:nth-child(2) {
+  width: 63%;
+}
 
 .heist-table {
   border-collapse: collapse;
@@ -233,12 +253,23 @@ td:first-child {
   padding: 8px;
   text-align: left;  
 }
+.heist-table th:nth-child(1),
+.heist-table td:nth-child(1) {
+  width: 10%;
+}
+.heist-table th:nth-child(2),
+.heist-table td:nth-child(2) {
+  text-align: center;
+  width: 90%;
+}
+
 
 .result-table {
   border-collapse: collapse;
   border-radius: 15px;
   width: 100%;
   background-color: #8bcefa;
+  table-layout: fixed;
 }
 .result-table td {
   padding: 8px;
@@ -247,7 +278,15 @@ td:first-child {
 .result-table tr:nth-child(even) {
   background-color: white;
 }
-
+.result-table th:nth-child(1),
+.result-table td:nth-child(1) {
+  width: 50%;
+}
+.result-table th:nth-child(2),
+.result-table td:nth-child(2) {
+  text-align: center;
+  width: 50%;
+}
 
 .buttons {
     text-align: center;
@@ -261,10 +300,25 @@ td:first-child {
   border: 1px solid #459bd5;
   padding: 3px;
 }
+
+.buttonsCheckUncheck {
+    text-align: center;
+}
+  .buttonsCheckUncheck button {
+  display: inline-block;
+  margin: 0px auto;
+  width: 40%;
+  color: #459bd5;
+  background-color: white;
+  border: 1px solid #459bd5;
+  padding: 3px;
+}
+
 .buttonsExpandCollapse {
     text-align: center;
 }
 .buttonsExpandCollapse button {
+  color: white;
   display: inline-block;
   margin: 0px 0px 5px auto;
   width: 20vh;
@@ -280,37 +334,35 @@ td:first-child {
   <body>
 
 <div style="border: 1px dotted #459bd5; margin: 15px; border-radius: 15px">
-    <div class="container">
+  <div class="container">
+    <div class="buttons">
       <button id="randomizeButton" class="randomizeButton" onclick="randomizeBuild()">RANDOMIZE BUILD</button>
-      </div>
-
-      <div class="buttons">
-        <button id="toggleResultButton" style="display: none;" onclick="toggleResult()">Hide Build</button>
-      </div>
-      <div style="display:none"; id="result"></div>
-    
+      <button id="toggleResultButton" class="eyeSlashButton" onclick="toggleResult()"><i class="far fa-eye"></i></button>
+    </div>
+  </div>
+  <div style="display:none"; id="result"></div>    
 </div>
+
 
 <div style="border: 1px dotted #459bd5; margin: 15px; border-radius: 15px">
   <div class="container">
-    <button id="randomizeButtonPoints" class="randomizeButton" onclick="randomizePoints()">RANDOMIZE SKILL TREES</button>
-  </div>
-
-  <div class="buttons">
-    <button id="toggleResultButtonSkillTree" style="display: none;" onclick="toggleResultSkillTree()">Hide Skill Trees</button>
+    <div class="buttons">
+      <button id="randomizeButtonPoints" class="randomizeButton" onclick="randomizePoints()">RANDOMIZE SKILL TREES</button>
+      <button id="toggleResultButtonSkillTree" onclick="toggleResultSkillTree()"><i class="far fa-eye"></i></button>
+    </div>
   </div>
   <div style="display:none"; id="pointsResult"></div>
 </div>
 
-<div style="border: 1px dotted #459bd5; margin: 15px; border-radius: 15px">
-    <div class="container">
-    <button id="randomizeButton" class="randomizeButton" onclick="randomizeHeist()">RANDOMIZE HEIST</button>
-    </div>
 
+<div style="border: 1px dotted #459bd5; margin: 15px; border-radius: 15px">
+  <div class="container">
     <div class="buttons">
-      <button id="toggleResultButtonHeist" style="display: none;" onclick="toggleResultHeist()">Hide Heist</button>
+      <button id="randomizeButton" class="randomizeButton" onclick="randomizeHeist()">RANDOMIZE HEIST</button>
+      <button id="toggleResultButtonHeist" onclick="toggleResultHeist()"><i class="far fa-eye"></i></button>  
     </div>
-    <div style="display:none"; id="resultHeist"></div>
+  </div>
+  <div style="display:none"; id="resultHeist"></div>
 </div>
 
 
@@ -319,7 +371,7 @@ td:first-child {
     <button onclick="collapseAll()">COLLAPSE ALL</button>
 </div>
 
-<div class="container">
+<div class="container" style="margin-top: 5px">
   <form>
     <fieldset>
       <legend id="primaryGuns-legend">
@@ -327,7 +379,7 @@ td:first-child {
       </legend>
       <div id="checkall"></div>
         <div id="primaryGuns-container" name="primaryGuns">
-          <div class="buttons">
+          <div class="buttonsCheckUncheck">
             <button id="check-primaryGuns" type="button">Check all</button>
             <button id="uncheck-primaryGuns" type="button">Uncheck all</button>
           </div>
@@ -344,7 +396,7 @@ td:first-child {
       </legend>
       <div id="checkall"></div>
         <div id="secondaryGuns-container" name="secondaryGuns">
-          <div class="buttons">
+          <div class="buttonsCheckUncheck">
             <button id="check-secondaryGuns" type="button">Check all</button>
             <button id="uncheck-secondaryGuns" type="button">Uncheck all</button>
           </div>
@@ -361,7 +413,7 @@ td:first-child {
       </legend>
       <div id="checkall"></div>
         <div id="perkDecks-container" name="perkDecks">
-          <div class="buttons">
+          <div class="buttonsCheckUncheck">
             <button id="check-perkDecks" type="button">Check all</button>
             <button id="uncheck-perkDecks" type="button">Uncheck all</button>
           </div>
@@ -379,7 +431,7 @@ td:first-child {
       </legend>
       <div id="checkall"></div>
         <div id="armors-container" name="armors">
-          <div class="buttons">
+          <div class="buttonsCheckUncheck">
             <button id="check-armors" type="button">Check all</button>
             <button id="uncheck-armors" type="button">Uncheck all</button>
           </div>
@@ -397,7 +449,7 @@ td:first-child {
       </legend>
       <div id="checkall"></div>
         <div id="throwables-container" name="throwables">
-          <div class="buttons">
+          <div class="buttonsCheckUncheck">
             <button id="check-throwables" type="button">Check all</button>
             <button id="uncheck-throwables" type="button">Uncheck all</button>
           </div>
@@ -415,7 +467,7 @@ td:first-child {
       </legend>
       <div id="checkall"></div>
         <div id="equipments-container" name="equipments">
-          <div class="buttons">
+          <div class="buttonsCheckUncheck">
             <button id="check-equipments" type="button">Check all</button>
             <button id="uncheck-equipments" type="button">Uncheck all</button>
           </div>
@@ -433,7 +485,7 @@ td:first-child {
       </legend>
       <div id="checkall"></div>
         <div id="melees-container" name="melees">
-          <div class="buttons">
+          <div class="buttonsCheckUncheck">
             <button id="check-melees" type="button">Check all</button>
             <button id="uncheck-melees" type="button">Uncheck all</button>
           </div>
@@ -451,7 +503,7 @@ td:first-child {
       </legend>
       <div id="checkall"></div>
         <div id="heists-container" name="heists">
-          <div class="buttons">
+          <div class="buttonsCheckUncheck">
             <button id="check-heists" type="button">Check all</button>
             <button id="uncheck-heists" type="button">Uncheck all</button>
           </div>
@@ -515,6 +567,10 @@ td:first-child {
   resultDiv.style.display = "block";
 
   document.getElementById("toggleResultButton").style.display = "inline-block";
+
+  const button = document.getElementById("toggleResultButton");
+  button.innerHTML = '<i class="far fa-eye-slash"></i>';
+
 }
 
 function randomizeHeist() {
@@ -545,6 +601,9 @@ function randomizeHeist() {
   resultDiv.style.display = "block";
 
   document.getElementById("toggleResultButtonHeist").style.display = "inline-block";
+
+  const button = document.getElementById("toggleResultButtonHeist");
+  button.innerHTML = '<i class="far fa-eye-slash"></i>';
 
 }
 
@@ -721,10 +780,10 @@ for (let heist of heists) {
 
   if (resultDiv.style.display === "none") {
     resultDiv.style.display = "block";
-    button.textContent = "Hide Build";
+    button.innerHTML = '<i class="far fa-eye-slash"></i>';
   } else {
     resultDiv.style.display = "none";
-    button.textContent = "Show Build";
+    button.innerHTML = '<i class="far fa-eye"></i>';
   }
 }
 
@@ -734,10 +793,10 @@ function toggleResultHeist() {
 
   if (resultDiv.style.display === "none") {
     resultDiv.style.display = "block";
-    button.textContent = "Hide Heist";
+    button.innerHTML = '<i class="far fa-eye-slash"></i>';
   } else {
     resultDiv.style.display = "none";
-    button.textContent = "Show Heist";
+    button.innerHTML = '<i class="far fa-eye"></i>';
   }
 }
 
@@ -748,10 +807,10 @@ function toggleResultSkillTree() {
 
   if (resultDiv.style.display === "none") {
     resultDiv.style.display = "block";
-    button.textContent = "Hide Skill Trees";
+    button.innerHTML = '<i class="far fa-eye-slash"></i>';
   } else {
     resultDiv.style.display = "none";
-    button.textContent = "Show Skill Trees";
+    button.innerHTML = '<i class="far fa-eye"></i>';
   }
 }
 
@@ -913,6 +972,10 @@ function randomizePoints() {
   resultDiv.style.display = "block";
 
   document.getElementById("toggleResultButtonSkillTree").style.display = "inline-block";
+
+  const button = document.getElementById("toggleResultButtonSkillTree");
+  button.innerHTML = '<i class="far fa-eye-slash"></i>';
+
 }
 
 
